@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "default": {},
+  "title": "Root Schema",
+  "required": [
+      "subject",
+      "facts"
+  ],
+  "properties": {
+      "subject": {
+          "type": "string",
+          "default": "",
+          "title": "The subject Schema",
+          "examples": [
+              "James Webb Space Telescope"
+          ]
+      },
+      "facts": {
+          "type": "array",
+          "default": [],
+          "title": "The facts Schema",
+          "items": {
+              "type": "object",
+              "title": "A Schema",
+              "required": [
+                  "title",
+                  "details"
+              ],
+              "properties": {
+                  "title": {
+                      "type": "string",
+                      "title": "The title Schema",
+                      "examples": [
+                          "fact 1",
+                          "fact 2"
+                      ]
+                  },
+                  "details": {
+                      "type": "string",
+                      "title": "The details Schema",
+                      "examples": [
+                          "fact 1",
+                          "fact 2"
+                      ]
+                  }
+              },
+              "examples": [{
+                  "title": "fact 1",
+                  "details": "fact 1"
+              },
+              {
+                  "title": "fact 2",
+                  "details": "fact 2"
+              }]
+          },
+          "examples": [
+              [{
+                  "title": "fact 1",
+                  "details": "fact 1"
+              },
+              {
+                  "title": "fact 2",
+                  "details": "fact 2"
+              }]
+          ]
+      }
+  },
+  "examples": [{
+      "subject": "James Webb Space Telescope",
+      "facts": [{
+          "title": "fact 1",
+          "details": "fact 1"
+      },
+      {
+          "title": "fact 2",
+          "details": "fact 2"
+      }]
+  }]
+}
