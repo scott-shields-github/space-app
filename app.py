@@ -55,6 +55,21 @@ def repeat_text(ack, respond, command):
                     "action_id": "apod"
                 }
             ]
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Select a Specific Date for a NASA Astronomy Image of the Day"
+            },
+            "accessory": {
+                "type": "datepicker",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select a date"
+                },
+                "action_id": "datepicker-apod"
+            }
         }
     ]
     respond(blocks=blocks)
@@ -63,15 +78,41 @@ def repeat_text(ack, respond, command):
 @app.action("apod")
 def astronomy_picture_of_the_day(ack, say):
     ack()
-    message = nasa_astronomy_picture_of_the_day()
-    say(message)
+    message_blocks = nasa_astronomy_picture_of_the_day()
+    say(blocks=message_blocks)
 
 
-@app.message("webb")
-def random_webb_image(say):
+@app.action("random_webb")
+def random_webb_image(ack, say):
+    ack()
     url = jwst_get_random_image_from_library()
-    say(f"{url}")
+    say(f"A random James Webb image for your viewing pleasure\n{url}")
 
+
+@app.action("datepicker-apod")
+def date_selection_apod(ack, say, payload):
+    ack()
+    message_blocks = nasa_astronomy_picture_of_the_day(payload["selected_date"])
+    say(blocks=message_blocks)
+
+
+@app.message("apod")
+def apod_tester(say):
+    say(blocks=[{
+        "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": "Select a Specific Date for a NASA Astronomy Image of the Day"
+        },
+        "accessory": {
+            "type": "datepicker",
+            "placeholder": {
+                "type": "plain_text",
+                "text": "Select a date"
+            },
+            "action_id": "datepicker-apod"
+        }
+    }])
 
 if __name__ == "__main__":
     # Create an app-level token with connections:write scope
