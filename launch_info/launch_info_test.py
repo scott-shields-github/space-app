@@ -17,7 +17,7 @@ print(f"{spacer}\nFetch single Launch\n{spacer}\n")
 print(launch_info_obj.get_formatted_launch_data(launch_info_obj.get_next_launch()[0]))
 
 print(f"{spacer}\nFetch multiple launches\n{spacer}\n")
-for launch in launch_info_obj.get_next_launch(3):
+for launch in launch_info_obj.get_next_launch(5):
     print(launch_info_obj.get_formatted_launch_data(launch))
 
 
