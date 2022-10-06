@@ -1,8 +1,7 @@
 import requests
 from dateutil import parser
 from datetime import datetime, timedelta
-
-ROCKET_API_URL: str = "https://fdo.rocketlaunch.live/json/launches/next/5"
+from launch_info.constants import ROCKET_API_URL
 
 
 class LaunchInfo:
