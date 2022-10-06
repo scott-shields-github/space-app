@@ -3,7 +3,7 @@ import logging
 from typing import Optional, Tuple
 from requests.exceptions import HTTPError
 from math import radians, sin, cos, asin, sqrt
-from iss_constants import ISS_NOW_URL, IPINFO_URL, RADIUS, EARTH_RADIUS
+from iss_tracker.iss_constants import ISS_NOW_URL, IPINFO_URL, RADIUS, EARTH_RADIUS
 from geopy.geocoders import Nominatim
 
 _logger = logging.getLogger(__name__)
