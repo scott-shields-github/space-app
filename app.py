@@ -2,7 +2,7 @@ import os
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from launch_info import LaunchInfo, LaunchData
-
+import iss_tracker.iss_utils as iss
 # image_module imports
 from image_module.images import (
     jwst_get_random_image_from_library,
@@ -118,6 +118,20 @@ def repeat_text(ack, respond, command):
                 }
             ],
         },
+        {
+          "type": "actions",
+          "elements": [
+              {
+                  "type": "button",
+                  "text": {
+                      "type": "plain_text",
+                      "text": "Where's the ISS at?"
+                  },
+                  "value": "isst",
+                  "action_id": "isst",
+              }
+          ],
+        },
     ]
     respond(blocks=blocks)
 
@@ -211,6 +225,12 @@ def launch_info(ack, say):
     for launch in launch_info_obj.get_next_launch(1):
         ret_str += launch_info_obj.get_formatted_launch_data(launch) + "\n"
     say(ret_str)
+
+
+@app.action("isst")
+def display_current_loc_of_iss(ack, say):
+    ack()
+    say(str(iss.current_location_of_iss()))
 
 
 @app.event("message")
