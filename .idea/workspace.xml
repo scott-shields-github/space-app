@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7c399b6-c674-4cf2-b3b8-ee8f67bc45c0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/image_module/jwst_image_library.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/image_module/images.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_module/images.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,5 +47,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

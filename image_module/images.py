@@ -34,8 +34,7 @@ def jwst_get_all_jpg_images():
 def jwst_get_random_image_from_library():
     random_selection = randrange(len(image_urls))
     image_to_send = image_urls[random_selection]['url']
-    print(image_to_send)
-    return
+    return image_to_send
 
 
 def nasa_astronomy_picture_of_the_day(date: str = None):
@@ -53,6 +52,6 @@ def nasa_astronomy_picture_of_the_day(date: str = None):
         hdurl = body['hdurl']
         url = body['url']
         copyright = body['copyright']
-        return
+        return url
     except requests.RequestException:
         return requests.RequestException
