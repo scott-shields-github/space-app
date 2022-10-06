@@ -8,6 +8,8 @@ from image_module.images import jwst_get_random_image_from_library, nasa_astrono
 
 from people_in_space.people import get_people_in_space, get_slack_blocks
 
+from facts.facts import random_fact, fact_block
+
 # Install the Slack app and get xoxb- token in advance
 app = App(token=os.environ["SLACK_BOT_TOKEN"])
 launch_info_obj: LaunchInfo = LaunchInfo()
@@ -127,6 +129,9 @@ def random_webb_image(ack, say):
 def launch_info(say):
     say("Upcoming rocket launches: ")
 
+@app.message("random jwst fact")
+def random_jwst_fact(say):
+    say(blocks=fact_block("jwst", **random_fact("jwst")))
 
 @app.action("datepicker-apod")
 def date_selection_apod(ack, say, payload):
