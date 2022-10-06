@@ -1,6 +1,7 @@
 import os
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
+from launch_info import LaunchInfo, LaunchData
 
 # image_module imports
 from image_module.images import jwst_get_random_image_from_library, nasa_astronomy_picture_of_the_day
@@ -9,7 +10,7 @@ from people_in_space.people import get_people_in_space, get_slack_blocks
 
 # Install the Slack app and get xoxb- token in advance
 app = App(token=os.environ["SLACK_BOT_TOKEN"])
-
+launch_info_obj: LaunchInfo = LaunchInfo()
 # Add functionality here
 @app.command("/space")
 def repeat_text(ack, respond, command):
@@ -146,8 +147,14 @@ def launch_info(say):
 
 @app.message("launches")
 def launch_info(say):
-    say("Upcoming rocket launches: ")
+    ret_str: str = ""
+    for launch in launch_info_obj.get_next_launch(5):
+        ret_str += launch_info_obj.get_formatted_launch_data(launch)
+    say(ret_str)
 
+@app.event("message")
+def handle_message_events(body, logger):
+    logger.info(body)
 
 if __name__ == "__main__":
     # Create an app-level token with connections:write scope
