@@ -56,6 +56,20 @@ def repeat_text(ack, respond, command):
                     "action_id": "apod"
                 }
             ]
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "See Upcoming Rocket launches",
+                    },
+                    "value": "launches",
+                    "action_id": "launches"
+                }
+            ]
         }
     ]
     respond(blocks=blocks)
@@ -74,11 +88,12 @@ def random_webb_image(say):
     say(f"{url}")
 
 
-@app.message("launches")
-def launch_info(say):
+@app.action("launches")
+def launch_info(ack, say):
+    ack()
     ret_str: str = ""
-    for launch in launch_info_obj.get_next_launch(5):
-        ret_str += launch_info_obj.get_formatted_launch_data(launch)
+    for launch in launch_info_obj.get_next_launch(1):
+        ret_str += launch_info_obj.get_formatted_launch_data(launch) + "\n"
     say(ret_str)
 
 @app.event("message")
