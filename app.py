@@ -72,6 +72,8 @@ def repeat_text(ack, respond, command):
                 },
                 "action_id": "datepicker-apod"
             },
+        },
+        {
             "type": "actions",
             "elements": [
                 {
@@ -111,6 +113,7 @@ def launch_info(say):
     say("Upcoming rocket launches: ")
 
 
+<<<<<<< HEAD
 @app.action("datepicker-apod")
 def date_selection_apod(ack, say, payload):
     ack()
@@ -135,6 +138,12 @@ def apod_tester(say):
             "action_id": "datepicker-apod"
         }
     }])
+=======
+@app.message("launches")
+def launch_info(say):
+    say("Upcoming rocket launches: ")
+
+>>>>>>> 9b13118fa142bee4ed08332427400b548d7a403a
 
 if __name__ == "__main__":
     # Create an app-level token with connections:write scope
