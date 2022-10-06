@@ -3,7 +3,8 @@ import logging
 from typing import Optional, Tuple
 from requests.exceptions import HTTPError
 from math import radians, sin, cos, asin, sqrt
-from iss_constants import ISS_NOW_URL, IPINFO_URL, RADIUS, EARTH_RADIUS
+from iss_tracker.iss_constants import ISS_NOW_URL, IPINFO_URL, RADIUS, EARTH_RADIUS
+from geopy.geocoders import Nominatim
 
 _logger = logging.getLogger(__name__)
 
@@ -68,10 +69,6 @@ def is_iss_in_radius(user_latitude, user_longitude, iss_latitude, iss_longitude)
 
     Currently, considering a 5mile radius from the user's location.
 
-    :param user_latitude:
-    :param user_longitude:
-    :param iss_latitude:
-    :param iss_longitude:
     :return: Boolean depending on whether the ISS lies within the 5 mile radius of the user
     """
     distance = _calculate_haversine_distance(user_longitude, user_latitude, iss_longitude, iss_latitude)
@@ -92,4 +89,9 @@ def _calculate_haversine_distance(lon1, lat1, lon2, lat2):
     return 2 * EARTH_RADIUS * asin(sqrt(a))
 
 
-
+def current_location_of_iss() -> str:
+    iss_lat, iss_long = get_current_ISS_coordinates()
+    coordinates = str(iss_lat) + "," + str(iss_long)
+    geoLoc = Nominatim(user_agent="GetLoc")
+    location = geoLoc.reverse(coordinates)
+    return location

@@ -8,6 +8,7 @@ from image_module.images import jwst_get_random_image_from_library, nasa_astrono
 
 from people_in_space.people import get_people_in_space, get_slack_blocks
 
+from iss_tracker.iss_tracker import ISSTracker
 # Install the Slack app and get xoxb- token in advance
 app = App(token=os.environ["SLACK_BOT_TOKEN"])
 launch_info_obj: LaunchInfo = LaunchInfo()
@@ -87,6 +88,20 @@ def repeat_text(ack, respond, command):
                     "action_id": "pis"
                 }
             ]
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Where's the ISS at?",
+                    },
+                    "value": "isst",
+                    "action_id": "isst"
+                }
+            ]
         }
     ]
     respond(blocks=blocks)
@@ -102,6 +117,13 @@ def astronomy_picture_of_the_day(ack, say):
 def people_in_space(ack, say):
   ack()
   say(blocks=get_slack_blocks(get_people_in_space()))
+
+
+@app.action("isst")
+def iss_tracker_current_location(ack, say):
+    ack()
+    say(ISSTracker.get_current_location_of_iss())
+
 
 @app.action("random_webb")
 def random_webb_image(ack, say):

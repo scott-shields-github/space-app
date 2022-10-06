@@ -3,7 +3,7 @@
 # Send alert if  alert_flag & timeout_flag is true, reset the alert_flag to False
 # Reset the timeout_flag after 5 mins
 
-import iss_utils as utils
+import iss_tracker.iss_utils as utils
 from threading import Thread, Timer
 from time import sleep
 import logging
@@ -44,3 +44,7 @@ class ISSTracker:
     def start_tracking(self):
         tracker_thread = Thread(target=self.check_for_iss, name='tracker_thread')
         tracker_thread.start()
+
+    @classmethod
+    def get_current_location_of_iss(cls):
+        return utils.current_location_of_iss()
