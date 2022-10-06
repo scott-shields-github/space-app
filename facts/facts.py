@@ -7,7 +7,8 @@ import json
 DATA_DIR = "./facts/data"
 
 SUBJECT_FILES = {
-    "jwst": f"{DATA_DIR}/jwst.facts.yaml"
+    "jwst": f"{DATA_DIR}/jwst.facts.yaml",
+    "hubble": f"{DATA_DIR}/hubble.facts.yaml"
 }
 
 def _load_yaml_file(file_path: str):
