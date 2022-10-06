@@ -9,10 +9,13 @@ from image_module.constants import JWSTAPI_API_KEY, \
     NASA_APOD_URL, \
     NASA_IMAGE_API_KEY
 
+from image_module.jwst_image_library import image_urls
+
 jwst_headers = {"X-API-KEY": JWSTAPI_API_KEY}
 
 
 # Get all James Webb Space Telescope images from https://jwstapi.com/
+# Retiring this function as it doesn't pull in images that people really want to see
 def jwst_get_all_jpg_images():
     image_list: List = []
     try:
@@ -23,17 +26,16 @@ def jwst_get_all_jpg_images():
             # Parse out just the full size 2D images and create a list
             if details['suffix'] == JWST_SUFFIX:
                 image_list.append({"url": x['location'], "thumbnail": x['thumbnail']})
-        for x in image_list:
-            print(x)
         return body
     except Exception as e:
         print(e)
 
 
 def jwst_get_random_image_from_library():
-    image_urls: List = []
     random_selection = randrange(len(image_urls))
     image_to_send = image_urls[random_selection]['url']
+    print(image_to_send)
+    return
 
 
 def nasa_astronomy_picture_of_the_day(date: str = None):
@@ -52,5 +54,5 @@ def nasa_astronomy_picture_of_the_day(date: str = None):
         url = body['url']
         copyright = body['copyright']
         return
-    except Exception as e:
-        print(e)
+    except requests.RequestException:
+        return requests.RequestException
