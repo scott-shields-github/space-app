@@ -4,7 +4,10 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 from launch_info import LaunchInfo, LaunchData
 
 # image_module imports
-from image_module.images import jwst_get_random_image_from_library, nasa_astronomy_picture_of_the_day
+from image_module.images import (
+    jwst_get_random_image_from_library,
+    nasa_astronomy_picture_of_the_day,
+)
 
 from people_in_space.people import get_people_in_space, get_slack_blocks
 
@@ -29,9 +32,9 @@ def repeat_text(ack, respond, command):
                         "text": "Random James Webb Image",
                     },
                     "value": "random_webb",
-                    "action_id": "random_webb"
+                    "action_id": "random_webb",
                 }
-            ]
+            ],
         },
         {
             "type": "actions",
@@ -43,9 +46,9 @@ def repeat_text(ack, respond, command):
                         "text": "Rocket Launch Info",
                     },
                     "value": "launch",
-                    "action_id": "launch_info"
+                    "action_id": "launch_info",
                 }
-            ]
+            ],
         },
         {
             "type": "actions",
@@ -57,23 +60,20 @@ def repeat_text(ack, respond, command):
                         "text": "NASA Image of the Day",
                     },
                     "value": "apod",
-                    "action_id": "apod"
+                    "action_id": "apod",
                 }
-            ]
+            ],
         },
         {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "Select a Specific Date for a NASA Astronomy Image of the Day"
+                "text": "Select a Specific Date for a NASA Astronomy Image of the Day",
             },
             "accessory": {
                 "type": "datepicker",
-                "placeholder": {
-                    "type": "plain_text",
-                    "text": "Select a date"
-                },
-                "action_id": "datepicker-apod"
+                "placeholder": {"type": "plain_text", "text": "Select a date"},
+                "action_id": "datepicker-apod",
             },
         },
         {
@@ -86,9 +86,9 @@ def repeat_text(ack, respond, command):
                         "text": "Who's in Space?",
                     },
                     "value": "pis",
-                    "action_id": "pis"
+                    "action_id": "pis",
                 }
-            ]
+            ],
         },
         {
             "type": "actions",
@@ -100,10 +100,24 @@ def repeat_text(ack, respond, command):
                         "text": "See Upcoming Rocket launches",
                     },
                     "value": "launches",
-                    "action_id": "launches"
+                    "action_id": "launches",
                 }
-            ]
-        }
+            ],
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Get Aurora Forecast",
+                    },
+                    "value": "aurora",
+                    "action_id": "aurora",
+                }
+            ],
+        },
     ]
     respond(blocks=blocks)
 
@@ -114,10 +128,30 @@ def astronomy_picture_of_the_day(ack, say):
     message_blocks = nasa_astronomy_picture_of_the_day()
     say(blocks=message_blocks)
 
+
 @app.action("pis")
 def people_in_space(ack, say):
-  ack()
-  say(blocks=get_slack_blocks(get_people_in_space()))
+    ack()
+    say(blocks=get_slack_blocks(get_people_in_space()))
+
+
+@app.action("aurora")
+def people_in_space(ack, say):
+    ack()
+    say(
+        blocks=[
+            {
+                "type": "section",
+                "text": {"type": "mrkdwn", "text": "*Northern Hemisphere*"},
+            },
+            {
+                "type": "image",
+                "image_url": "https://services.swpc.noaa.gov/images/aurora-forecast-northern-hemisphere.jpg",
+                "alt_text": "northern hemisphere",
+            },
+        ]
+    )
+
 
 @app.action("random_webb")
 def random_webb_image(ack, say):
@@ -125,13 +159,16 @@ def random_webb_image(ack, say):
     url = jwst_get_random_image_from_library()
     say(f"A random James Webb image for your viewing pleasure\n{url}")
 
+
 @app.message("launches")
 def launch_info(say):
     say("Upcoming rocket launches: ")
 
+
 @app.message("random jwst fact")
 def random_jwst_fact(say):
     say(blocks=fact_block("jwst", **random_fact("jwst")))
+
 
 @app.action("datepicker-apod")
 def date_selection_apod(ack, say, payload):
@@ -142,21 +179,22 @@ def date_selection_apod(ack, say, payload):
 
 @app.message("apod")
 def apod_tester(say):
-    say(blocks=[{
-        "type": "section",
-        "text": {
-            "type": "mrkdwn",
-            "text": "Select a Specific Date for a NASA Astronomy Image of the Day"
-        },
-        "accessory": {
-            "type": "datepicker",
-            "placeholder": {
-                "type": "plain_text",
-                "text": "Select a date"
-            },
-            "action_id": "datepicker-apod"
-        }
-    }])
+    say(
+        blocks=[
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "Select a Specific Date for a NASA Astronomy Image of the Day",
+                },
+                "accessory": {
+                    "type": "datepicker",
+                    "placeholder": {"type": "plain_text", "text": "Select a date"},
+                    "action_id": "datepicker-apod",
+                },
+            }
+        ]
+    )
 
 
 @app.message("launches")
@@ -172,9 +210,11 @@ def launch_info(ack, say):
         ret_str += launch_info_obj.get_formatted_launch_data(launch) + "\n"
     say(ret_str)
 
+
 @app.event("message")
 def handle_message_events(body, logger):
     logger.info(body)
+
 
 if __name__ == "__main__":
     # Create an app-level token with connections:write scope
