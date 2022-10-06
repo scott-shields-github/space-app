@@ -130,3 +130,5 @@ dmypy.json
 
 # get rid of ./idea directory
 .idea/
+
+Pipfile
