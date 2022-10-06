@@ -94,4 +94,5 @@ def current_location_of_iss() -> str:
     coordinates = str(iss_lat) + "," + str(iss_long)
     geoLoc = Nominatim(user_agent="GetLoc")
     location = geoLoc.reverse(coordinates)
-    return location
+    print("Changes")
+    return location.address if location is not None else ""
