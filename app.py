@@ -164,11 +164,13 @@ def random_webb_image(ack, say):
 def launch_info(say):
     say("Upcoming rocket launches: ")
 
-
 @app.message("random jwst fact")
 def random_jwst_fact(say):
     say(blocks=fact_block("jwst", **random_fact("jwst")))
 
+@app.message("random hubble fact")
+def random_jwst_fact(say):
+    say(blocks=fact_block("hubble", **random_fact("hubble")))
 
 @app.action("datepicker-apod")
 def date_selection_apod(ack, say, payload):
