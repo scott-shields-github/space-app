@@ -1,5 +1,6 @@
 import requests
 from typing import List
+from random import randrange
 
 from image_module.constants import JWSTAPI_API_KEY, \
     JWSTAPI_IMAGE_TYPE_JPG, \
@@ -20,13 +21,19 @@ def jwst_get_all_jpg_images():
         for x in body:
             details = x['details']
             # Parse out just the full size 2D images and create a list
-            # if details['suffix'] == JWST_SUFFIX:
-            image_list.append({"url": x['location'], "thumbnail": x['thumbnail']})
+            if details['suffix'] == JWST_SUFFIX:
+                image_list.append({"url": x['location'], "thumbnail": x['thumbnail']})
         for x in image_list:
             print(x)
         return body
     except Exception as e:
         print(e)
+
+
+def jwst_get_random_image_from_library():
+    image_urls: List = []
+    random_selection = randrange(len(image_urls))
+    image_to_send = image_urls[random_selection]['url']
 
 
 def nasa_astronomy_picture_of_the_day(date: str = None):
