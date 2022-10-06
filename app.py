@@ -92,6 +92,11 @@ def random_webb_image(say):
     url = jwst_get_random_image_from_library()
     say(f"{url}")
 
+@app.message("launches")
+def launch_info(say):
+    say("Upcoming rocket launches: ")
+
+
 if __name__ == "__main__":
     # Create an app-level token with connections:write scope
     handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
