@@ -1,34 +1,9 @@
 import requests
-from typing import List
 from random import randrange
 
-from image_module.constants import JWSTAPI_API_KEY, \
-    JWSTAPI_IMAGE_TYPE_JPG, \
-    JWSTAPI_BASE_URL, \
-    JWST_SUFFIX, \
-    NASA_APOD_URL, \
-    NASA_IMAGE_API_KEY
+from image_module.constants import NASA_APOD_URL, NASA_IMAGE_API_KEY
 
 from image_module.jwst_image_library import image_urls
-
-jwst_headers = {"X-API-KEY": JWSTAPI_API_KEY}
-
-
-# Get all James Webb Space Telescope images from https://jwstapi.com/
-# Retiring this function as it doesn't pull in images that people really want to see
-def jwst_get_all_jpg_images():
-    image_list: List = []
-    try:
-        response = requests.get(f"{JWSTAPI_BASE_URL}/all/type/{JWSTAPI_IMAGE_TYPE_JPG}", headers=jwst_headers).json()
-        body = response['body']
-        for x in body:
-            details = x['details']
-            # Parse out just the full size 2D images and create a list
-            if details['suffix'] == JWST_SUFFIX:
-                image_list.append({"url": x['location'], "thumbnail": x['thumbnail']})
-        return body
-    except Exception as e:
-        print(e)
 
 
 def jwst_get_random_image_from_library():
@@ -42,16 +17,57 @@ def nasa_astronomy_picture_of_the_day(date: str = None):
         "api_key": NASA_IMAGE_API_KEY,
         "date": date
     } if date else {"api_key": NASA_IMAGE_API_KEY}
-    print(params)
     try:
         body = requests.get(NASA_APOD_URL, params=params).json()
-        if body['media_type'] != "image":
-            result = f"No image results available for date: {body['date']}"
+        print(body)
         title = body['title']
         description = body['explanation']
-        hdurl = body['hdurl']
         url = body['url']
-        copyright = body['copyright']
-        return url
-    except requests.RequestException:
-        return requests.RequestException
+        date = body['date']
+        copyright = body['copyright'] if body['copyright'] else "Unattributed"
+        message_blocks = [
+            {
+                "type": "header",
+                "text": {
+                    "type": "plain_text",
+                    "text": "NASA Astronomy Image of the Day"
+                }
+            },
+            {
+                "type": "context",
+                "elements": [
+                    {
+                        "type": "plain_text",
+                        "text": f"Picture of the day from {date}"
+                    }
+                ]
+            },
+            {
+                "type": "image",
+                "title": {
+                    "type": "plain_text",
+                    "text": f"{title}"
+                },
+                "image_url": f"{url}",
+                "alt_text": f"{title}"
+            },
+            {
+                "type": "context",
+                "elements": [
+                    {
+                        "type": "plain_text",
+                        "text": f"Copyright: {copyright}"
+                    }
+                ]
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "plain_text",
+                    "text": f"{description}"
+                }
+            }
+        ]
+        return message_blocks
+    except Exception as e:
+        return e
