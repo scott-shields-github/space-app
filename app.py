@@ -29,52 +29,12 @@ def repeat_text(ack, respond, command):
                     "type": "button",
                     "text": {
                         "type": "plain_text",
-                        "text": "Random James Webb Image",
-                    },
-                    "value": "random_webb",
-                    "action_id": "random_webb",
-                }
-            ],
-        },
-        {
-            "type": "actions",
-            "elements": [
-                {
-                    "type": "button",
-                    "text": {
-                        "type": "plain_text",
                         "text": "Rocket Launch Info",
                     },
                     "value": "launch",
                     "action_id": "launch_info",
                 }
             ],
-        },
-        {
-            "type": "actions",
-            "elements": [
-                {
-                    "type": "button",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "NASA Image of the Day",
-                    },
-                    "value": "apod",
-                    "action_id": "apod",
-                }
-            ],
-        },
-        {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "Select a Specific Date for a NASA Astronomy Image of the Day",
-            },
-            "accessory": {
-                "type": "datepicker",
-                "placeholder": {"type": "plain_text", "text": "Select a date"},
-                "action_id": "datepicker-apod",
-            },
         },
         {
             "type": "actions",
@@ -132,6 +92,46 @@ def repeat_text(ack, respond, command):
               }
           ],
         },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Random James Webb Image",
+                    },
+                    "value": "random_webb",
+                    "action_id": "random_webb",
+                }
+            ],
+        },
+         {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "NASA Image of the Day",
+                    },
+                    "value": "apod",
+                    "action_id": "apod",
+                }
+            ],
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Select a Specific Date for a NASA Astronomy Image of the Day",
+            },
+            "accessory": {
+                "type": "datepicker",
+                "placeholder": {"type": "plain_text", "text": "Select a date"},
+                "action_id": "datepicker-apod",
+            },
+        }
     ]
     respond(blocks=blocks)
 
@@ -173,10 +173,6 @@ def random_webb_image(ack, say):
     url = jwst_get_random_image_from_library()
     say(f"A random James Webb image for your viewing pleasure\n{url}")
 
-
-@app.message("launches")
-def launch_info(say):
-    say("Upcoming rocket launches: ")
 
 @app.message("random jwst fact")
 def random_jwst_fact(say):
